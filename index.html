@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q/A</title>
+    <link rel="icon" href="/favicon.svg">
+    <style>
+        html {
+            background-color: black;
+            justify-content: center;
+            font-family: 'Courier New', Courier, monospace;
+          }
+
+        h1 {
+          color: white;
+        }
+</style>
+</head>
+<body>
+    <h1 id="intro">Hello! I am a friendly bot who can answer any question about anything!</p>
+    <h1 id="question"> What can I help you with today?</p>
+    <form id="question" name="que">
+      <input id="q" name="q" type="text" placeholder="Question (remember to put a question mark in the end!)" style="width: 93%;">
+      <input id="submit" type="button" onclick="getdata()">
+    </form>
+    <h1 id="ans"></h1>
+    <script>
+      let elem = document.getElementById('ans');
+      function getdata() {
+        elem.innerText = 'Searching...'
+        let q = document.forms.namedItem('que');
+        let formdata = new FormData(q);
+        let val = formdata.get('q');
+        let xh = new XMLHttpRequest();
+        xh.open('GET', 'http://127.0.0.1:8000/ans?q=' + val, false);
+        xh.send();
+        if (xh.responseText.valueOf() === '[CLS]') {
+          elem.innerText = 'Sorry, I ran into a technical difficulty! It is likely that the question you asked is too complex for me to handle or did not have a question mark in the end. :-(';
+        } else {
+          let data = xh.responseText.split('/');
+          elem.innerText = 'I searched and found this: ' + data[0] + '. Feel free to ask me again if you have another question!';
+        }
+      }
+    </script>
+</body>
+</html>
