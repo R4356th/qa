@@ -7,7 +7,7 @@ from json import dumps
 
 class DocumentReader:
     def __init__(self, pretrained_model_name_or_path='bert-large-uncased'):
-        self.READER_PATH = pretrained_model_name_or_path
+        self.READER_PATH = 'EleutherAI/gpt-j-6B'
         self.tokenizer = AutoTokenizer.from_pretrained(self.READER_PATH)
         self.model = AutoModelForQuestionAnswering.from_pretrained(self.READER_PATH)
         self.max_len = self.model.config.max_position_embeddings
