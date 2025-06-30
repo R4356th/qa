@@ -4,9 +4,6 @@ from torch import cat, argmax, masked_select, split, tensor, squeeze, unsqueeze
 from wikipedia import search, page
 from collections import OrderedDict
 from logging import getLogger, ERROR
-import PIL.Image
-import io
-from requests import get
 getLogger("transformers.tokenization_utils").setLevel(ERROR)
 
 # Create your views here.
@@ -21,20 +18,6 @@ def get_answer(request):
     reader.tokenize(param, text)
     answer = reader.get_answer()
     return HttpResponse(answer)
-
-def compress(request):
-    param = request.GET.get('q', '')
-    return HttpResponse(read(param))
-
-def read(filename):
-    #file = open(filename, 'rb')
-    file = get(filename)
-    #byte = file.read(1000000000)
-    #smth = bytearray(byte)
-    #img = PIL.Image.open(io.BytesIO(smth))
-    #file.close()
-    print(file)
-    return file
 
 class DocumentReader:
     def __init__(self, pretrained_model_name_or_path='bert-large-uncased'):
